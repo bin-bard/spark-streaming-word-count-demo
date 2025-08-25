@@ -1,0 +1,18 @@
+hello world spark streaming
+apache spark is awesome for big data processing
+real time data streaming with spark
+distributed computing made easy
+micro batching architecture in spark streaming
+fault tolerant stream processing
+scala python java apis available
+machine learning on streaming data
+exactly once semantics guaranteed
+high throughput low latency system
+windowing operations for time series
+stateful transformations with checkpointing
+kafka integration for reliable messaging
+hdfs parquet json csv format support
+monitoring and debugging capabilities
+cluster resource management with yarn
+docker kubernetes deployment options
+performance tuning best practices
