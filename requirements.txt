@@ -1,4 +1,1 @@
-# Các thư viện cần thiết đã được cài đặt trong container Docker
-# Tệp này chỉ để tham khảo
-
 pyspark==3.3.0

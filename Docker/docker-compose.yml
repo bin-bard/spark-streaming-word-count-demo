@@ -1,0 +1,51 @@
+# Đường dẫn: spark-streaming-word-count-demo/Docker/docker-compose.yml
+# File này định nghĩa một môi trường Docker hoàn chỉnh để chạy demo.
+# Bao gồm: 1 Spark Master, 1 Spark Worker, và 1 Netcat Server để gửi dữ liệu.
+
+version: "3.8"
+
+services:
+  # Dịch vụ Spark Master: bộ não của cluster
+  spark-master:
+    image: bitnami/spark:3
+    container_name: spark-master
+    ports:
+      - "8080:8080" # Cổng để truy cập Spark Web UI từ trình duyệt
+      - "7077:7077" # Cổng để Spark Worker kết nối vào Master
+    volumes:
+      - ./:/app # Map thư mục hiện tại (Docker/) vào thư mục /app trong container
+    environment:
+      - SPARK_MODE=master
+      # Tắt các cơ chế bảo mật để đơn giản hóa cho môi trường phát triển
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+
+  # Dịch vụ Spark Worker: nơi thực thi các tác vụ
+  spark-worker:
+    image: bitnami/spark:3
+    container_name: spark-worker
+    depends_on: # Đảm bảo Worker chỉ khởi động sau khi Master đã sẵn sàng
+      - spark-master
+    volumes:
+      - ./:/app # Map thư mục hiện tại (Docker/) vào thư mục /app trong container
+    environment:
+      - SPARK_MODE=worker
+      # Địa chỉ để Worker kết nối tới Master. 'spark-master' là tên của service ở trên.
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      # Tắt các cơ chế bảo mật
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
+
+  # Dịch vụ Netcat: đóng vai trò là nguồn dữ liệu streaming
+  netcat-server:
+    image: alpine
+    container_name: netcat-server
+    # Lệnh chạy khi container khởi động: cài netcat và chạy nó để lắng nghe trên cổng 9999
+    command: sh -c "apk add --no-cache netcat-openbsd && nc -lk -p 9999"
+    # Cần thiết để có thể attach và gõ dữ liệu vào từ terminal
+    stdin_open: true
+    tty: true
