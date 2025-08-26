@@ -1,0 +1,10 @@
+hello spark hello world
+spark streaming is fun
+hello world again
+big data processing with apache spark
+real time streaming analytics
+distributed computing framework
+micro batching architecture
+resilient distributed datasets
+directed acyclic graph
+fault tolerance and recovery
