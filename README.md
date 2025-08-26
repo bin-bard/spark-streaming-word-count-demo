@@ -49,7 +49,6 @@ PATH=%JAVA_HOME%\bin;%PATH%
 
    - **Spark prebuilt for Apache Hadoop 2.7**: Tương thích với winutils `hadoop-2.7.1`
    - **Spark prebuilt for Apache Hadoop 3.2 and later**: Tương thích với winutils `hadoop-3.0.0` trở lên
-
 2. Giải nén vào `C:\spark`
 3. Thiết lập biến môi trường:
 
@@ -66,7 +65,6 @@ Cài đặt winutils phù hợp với phiên bản Spark prebuilt đã chọn �
 
    - Chọn thư mục phiên bản Hadoop tương ứng với Spark prebuilt
    - Tải file `winutils.exe` từ thư mục `bin/`
-
 2. Tạo thư mục `C:\hadoop\bin`
 3. Copy `winutils.exe` vào `C:\hadoop\bin`
 4. Thiết lập biến môi trường:
@@ -93,7 +91,23 @@ Nếu đã có Python 3.11, chỉ cần cài đặt PySpark:
 pip install pyspark==3.3.0
 ```
 
-### Bước 6: Chạy ứng dụng
+### Bước 6: Thiết lập biến môi trường PySpark
+
+Thiết lập biến môi trường để PySpark sử dụng Python 3.11 (tương thích với PySpark 3.3.0):
+
+```
+PYSPARK_PYTHON=python
+PYSPARK_DRIVER_PYTHON=python
+```
+
+**Lưu ý**: Nếu có nhiều phiên bản Python, hãy trỏ cụ thể đến Python 3.11:
+
+```
+PYSPARK_PYTHON=C:\Python311\python.exe
+PYSPARK_DRIVER_PYTHON=C:\Python311\python.exe
+```
+
+### Bước 7: Chạy ứng dụng
 
 #### Terminal 1: Khởi động Netcat
 
@@ -108,7 +122,7 @@ cd spark-streaming-word-count-demo/Windows
 spark-submit word_count_windows.py
 ```
 
-### Bước 7: Kiểm tra kết quả
+### Bước 8: Kiểm tra kết quả
 
 Quay lại terminal netcat (Terminal 1), gõ một vài câu và nhấn Enter:
 
