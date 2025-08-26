@@ -19,14 +19,10 @@ if __name__ == "__main__":
     # Tách mỗi dòng thành các từ
     # DStream[string] -> DStream[string]
     words = lines.flatMap(lambda line: line.split(" "))
-    
-    # Lọc chỉ lấy các từ có độ dài lớn hơn 4 ký tự
-    # DStream[string] -> DStream[string]
-    long_words = words.filter(lambda word: len(word) > 4)
 
     # Tạo cặp (word, 1) cho mỗi từ
     # DStream[string] -> DStream[(string, int)]
-    pairs = long_words.map(lambda word: (word, 1))
+    pairs = words.map(lambda word: (word, 1))
 
     # Đếm số lần xuất hiện của mỗi từ trong từng batch
     # DStream[(string, int)] -> DStream[(string, int)]

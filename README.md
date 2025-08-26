@@ -1,6 +1,8 @@
 # Spark Streaming Word Count Demo
 
-Demo ứng dụng đơn giản sử dụng Spark Streaming (DStreams) để đếm tần suất các từ trong luồng dữ liệu văn bản thời gian thực, với điều kiện chỉ đếm các từ có độ dài lớn hơn 4 ký tự.
+Demo ứng dụng đơn giản sử dụng Spark Streaming (DStreams) để đếm tần suất các từ trong luồng dữ liệu văn bản thời gian thực. Dự án này cung cấp hai phiên bản:
+1. `word_count_streaming.py`: Đếm tất cả các từ
+2. `word_count_filter.py`: Chỉ đếm các từ có độ dài lớn hơn 4 ký tự
 
 ## Yêu cầu
 
@@ -40,10 +42,16 @@ Ví dụ: `docker run -it --rm --network=spark-streaming-word-count-demo_default
 
 ### Bước 4: Chạy ứng dụng Spark
 
-Mở một terminal khác và chạy:
+Mở một terminal khác và chạy một trong hai lệnh sau:
 
+#### Để đếm tất cả các từ:
 ```
 docker exec spark-master /opt/bitnami/spark/bin/spark-submit /app/word_count_streaming.py
+```
+
+#### Để chỉ đếm các từ có độ dài lớn hơn 4 ký tự:
+```
+docker exec spark-master /opt/bitnami/spark/bin/spark-submit /app/word_count_filter.py
 ```
 
 ### Bước 5: Kiểm tra kết quả
@@ -56,7 +64,7 @@ spark streaming is fun
 hello world again
 ```
 
-Quan sát terminal spark-submit (Bước 4). Sau mỗi vài giây (batch interval), bạn sẽ thấy kết quả đếm từ được in ra màn hình. Chỉ các từ có độ dài lớn hơn 4 ký tự sẽ được đếm.
+Quan sát terminal spark-submit (Bước 4). Sau mỗi vài giây (batch interval), bạn sẽ thấy kết quả đếm từ được in ra màn hình. Tùy vào file Python bạn chọn chạy, kết quả sẽ hiển thị tất cả các từ hoặc chỉ các từ có độ dài lớn hơn 4 ký tự.
 
 ### Dọn dẹp
 
