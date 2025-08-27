@@ -1,9 +1,10 @@
 # Spark Streaming Word Count Demo
 
-Demo ứng dụng đơn giản sử dụng Spark Streaming (DStreams) để đếm tần suất các từ trong luồng dữ liệu văn bản thời gian thực. Dự án này cung cấp hai phiên bản:
+Demo ứng dụng đơn giản sử dụng Spark Streaming (DStreams) để đếm tần suất các từ trong luồng dữ liệu văn bản thời gian thực. Dự án này cung cấp ba phiên bản:
 
 1. `word_count.py`: Đếm tất cả các từ (cho Docker)
 2. `word_count_windows.py`: Đếm tất cả các từ (cho Windows)
+3. `word_count_filtered.py`: Đếm các từ có độ dài > 4 ký tự (cho Windows với tính năng lọc)
 
 ## Yêu cầu
 
@@ -61,7 +62,7 @@ PATH=%SPARK_HOME%\bin;%PATH%
 
 Cài đặt winutils phù hợp với phiên bản Spark prebuilt đã chọn ở Bước 2:
 
-1. Tải `winutils.exe` từ [https://github.com/steveloughran/winutils](https://github.com/steveloughran/winutils)
+1. Tải `winutils.exe` từ [https://github.com/cdarlint/winutils](https://github.com/steveloughran/winutils)
 
    - Chọn thư mục phiên bản Hadoop tương ứng với Spark prebuilt
    - Tải file `winutils.exe` từ thư mục `bin/`
@@ -96,13 +97,6 @@ pip install pyspark==3.3.0
 Thiết lập biến môi trường để PySpark sử dụng Python 3.11 (tương thích với PySpark 3.3.0):
 
 ```
-PYSPARK_PYTHON=python
-PYSPARK_DRIVER_PYTHON=python
-```
-
-**Lưu ý**: Nếu có nhiều phiên bản Python, hãy trỏ cụ thể đến Python 3.11:
-
-```
 PYSPARK_PYTHON=C:\Python311\python.exe
 PYSPARK_DRIVER_PYTHON=C:\Python311\python.exe
 ```
@@ -117,9 +111,18 @@ ncat -lk 9999
 
 #### Terminal 2: Chạy Spark application
 
+Có hai lựa chọn:
+
+**Tùy chọn 1: Đếm tất cả các từ**
 ```
 cd spark-streaming-word-count-demo/Windows
 spark-submit word_count_windows.py
+```
+
+**Tùy chọn 2: Đếm chỉ các từ có độ dài > 4 ký tự (với tính năng lọc)**
+```
+cd spark-streaming-word-count-demo/Windows
+spark-submit word_count_filtered.py
 ```
 
 ### Bước 8: Kiểm tra kết quả
@@ -133,6 +136,10 @@ hello world again
 ```
 
 Quan sát terminal spark-submit (Terminal 2). Sau mỗi 2 giây (batch interval), kết quả đếm từ sẽ được in ra màn hình.
+
+**Lưu ý về kết quả:**
+- Nếu sử dụng `word_count_windows.py`: Tất cả các từ sẽ được đếm
+- Nếu sử dụng `word_count_filtered.py`: Chỉ những từ có độ dài > 4 ký tự sẽ được đếm (ví dụ: "hello", "spark", "streaming", "world", "again" nhưng không có "is")
 
 ### Dọn dẹp Windows
 
